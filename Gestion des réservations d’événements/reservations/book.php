@@ -18,7 +18,7 @@ $message = "";
 $messageType = "";
 
 try {
-  // 3. Fetch the event
+  // 3. Fetch the event 
   $stmt = $pdo->prepare("SELECT * FROM events WHERE id = :id");
   $stmt->execute(['id' => $id]);
   $event = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -68,71 +68,15 @@ try {
 <head>
   <meta charset="UTF-8">
   <title>Book Event</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px;
-    }
-
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 350px;
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    p {
-      color: #555;
-    }
-
-    .book-btn {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .book-btn:hover {
-      background: #218838;
-    }
-
-    .book-btn:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
-
-    .success {
-      color: green;
-      font-weight: bold;
-    }
-
-    .error {
-      color: red;
-      font-weight: bold;
-    }
-
-    .back {
-      margin-top: 15px;
-      color: #007BFF;
-      text-decoration: none;
-    }
-  </style>
+  <link rel="stylesheet" href="book.css">
 </head>
 
 <body>
+
+  <header>
+    <span class="logInfo">Welcome, <?= htmlspecialchars($_SESSION['user_name']) ?></span>
+    <a href="../auth/logout.php">Logout</a>
+  </header>
 
   <div class="card">
     <h2><?= htmlspecialchars($event['title']) ?></h2>

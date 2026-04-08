@@ -1,12 +1,14 @@
 <?php
 session_start();
 require '../config/db.php';
+// Is there an user online?
 if (isset($_SESSION['user_id'])) {
   header("Location:../events/catalogue.php");
   exit;
 }
 $errors = [];
 try {
+  // Get the user that has the same email as email input
   $sql = "SELECT * FROM users WHERE email = :email";
   $stmt = $pdo->prepare($sql);
 } catch (PDOException $e) {
@@ -52,69 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    form {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #333;
-    }
-
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    .error-msg {
-      color: red;
-      margin-bottom: 15px;
-    }
-
-    .signSucc {
-      color: green;
-      margin-bottom: 15px;
-    }
-  </style>
+  <link rel="stylesheet" href="login.css">
   <title>Login</title>
 </head>
 

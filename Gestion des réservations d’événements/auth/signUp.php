@@ -33,8 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   }
 
   if (empty($errors)) {
+    // hash the password before saving to database
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    // This to make error message easy to understand
+
     try {
       $stmt->execute([
         $name,
@@ -44,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       header("Location: login.php?signSucc=true");
       exit;
     } catch (PDOException $e) {
+      // 23000 is the code for duplicate entry (email already exists)
       if ($e->getCode() == 23000) {
         $errors[] = "Email already exists!";
       } else {
@@ -59,57 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h2 {
-      margin-top: 20px;
-    }
-
-    form {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    input {
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background-color: #007BFF;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    .error-msg {
-      color: red;
-    }
-  </style>
+  <link rel="stylesheet" href="signUp.css">
   <title>Sign Up</title>
 </head>
 
