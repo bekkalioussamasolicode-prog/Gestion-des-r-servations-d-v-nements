@@ -1,12 +1,14 @@
 <?php
 session_start();
 require '../config/db.php';
+// Is there an user online?
 if (isset($_SESSION['user_id'])) {
   header("Location:../events/catalogue.php");
   exit;
 }
 $errors = [];
 try {
+  // Get the user that has the same email as email input
   $sql = "SELECT * FROM users WHERE email = :email";
   $stmt = $pdo->prepare($sql);
 } catch (PDOException $e) {
@@ -52,90 +54,78 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    form {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #333;
-    }
-
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    .error-msg {
-      color: red;
-      margin-bottom: 15px;
-    }
-
-    .signSucc {
-      color: green;
-      margin-bottom: 15px;
-    }
-  </style>
-  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+  <title>Login - Event Flow</title>
 </head>
 
 <body>
-  <h2>Log-in</h2>
-  <?php foreach ($errors as $err): ?>
-    <p class="error-msg"><?= $err ?></p>
-  <?php endforeach; ?>
-  <?php
-  if (isset($_GET['signSucc'])) {
-    echo "<p class='signSucc'>Account created successfully! Please log in.</p>";
-  }
-  ?>
-  <form method="post">
-    <label>Email</label>
-    <input type="email" placeholder="ex: user@email.com" name="email" required>
-    <label>Password</label>
-    <input type="password" name="psw" required>
-    <button type="submit">Log-in</button>
-  </form>
-  <p>Create an account <a href="signUp.php">Sign-Up</a></p>
+  <header class="mobile-header">
+    <div class="logo">EventApp</div>
+    <div class="hamburger" id="hamburger-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <div class="login-container">
+    <div class="overlay" id="sidebar-overlay"></div>
+    <aside class="login-sidebar" id="login-sidebar">
+      <div class="sidebar-content">
+        <h1>Welcome Back!</h1>
+        <p>Log in to manage your events, check reservations, and discover exciting new experiences.</p>
+        <ul class="feature-list">
+          <li>✨ Seamless Bookings</li>
+          <li>📅 Easy Management</li>
+          <li>🎟️ Quick Ticketing</li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="login-main">
+      <div class="login-box">
+        <h2>Log-in</h2>
+        <?php foreach ($errors as $err): ?>
+          <p class="error-msg"><?= htmlspecialchars($err) ?></p>
+        <?php endforeach; ?>
+        <?php
+        if (isset($_GET['signSucc'])) {
+          echo "<p class='signSucc'>Account created successfully! Please log in.</p>";
+        }
+        ?>
+        <form method="post">
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" placeholder="Ex: user@email.com" name="email" required>
+          </div>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="psw" required>
+          </div>
+          <button type="submit" class="login-btn">Log-in</button>
+        </form>
+        <p class="signup-link">Create an account <a href="signUp.php">Sign-Up</a></p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('hamburger-menu');
+    const sidebar = document.getElementById('login-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    function toggleSidebar() {
+      hamburger.classList.toggle('active');
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+    }
+
+    hamburger.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+  </script>
 </body>
 
 </html>
