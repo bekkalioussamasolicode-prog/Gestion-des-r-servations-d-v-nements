@@ -269,7 +269,7 @@ try {
           value="<?= htmlspecialchars($search) ?>">
         <button type="submit" class="add-btn">Search</button>
       </form>
-      <a href="add_event.php" class="add-btn">+ Add event</a>
+      <a href="add-event.php" class="add-btn">+ Add event</a>
     </div>
 
     <!-- Events table -->
