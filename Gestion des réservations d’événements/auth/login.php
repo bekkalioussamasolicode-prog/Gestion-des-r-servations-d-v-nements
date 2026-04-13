@@ -7,14 +7,9 @@ if (isset($_SESSION['user_id'])) {
   exit;
 }
 $errors = [];
-try {
-  // Get the user that has the same email as email input
-  $sql = "SELECT * FROM users WHERE email = :email";
-  $stmt = $pdo->prepare($sql);
-} catch (PDOException $e) {
-  error_log($e->getMessage());
-  $errors[] = "Database error. Please try again later.";
-}
+// Get the user that has the same email as email input
+$sql = "SELECT * FROM users WHERE email = :email";
+$stmt = $pdo->prepare($sql);
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -103,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           </div>
           <div class="input-group">
             <label>Password</label>
-            <input type="password" name="psw" required>
+            <input type="password" name="psw" placeholder="********" required>
           </div>
           <button type="submit" class="login-btn">Log-in</button>
         </form>

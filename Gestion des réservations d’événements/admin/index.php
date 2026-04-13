@@ -3,7 +3,7 @@ session_start();
 require '../config/db.php';
 
 if (!isset($_SESSION['user_name']) || $_SESSION['user_name'] !== "oussama") {
-  die("Your not an admin");
+  die("You're not an admin");
 }
 
 $search = isset($_GET['search']) ?  trim($_GET['search']) : '';
@@ -29,6 +29,9 @@ try {
 } catch (PDOException $e) {
   error_log($e->getMessage());
   $events = [];
+  $totalEvents = 0;
+  $totalReservations = 0;
+  $soldOut = 0;
 }
 ?>
 <!DOCTYPE html>

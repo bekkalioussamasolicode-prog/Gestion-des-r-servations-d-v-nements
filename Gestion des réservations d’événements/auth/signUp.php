@@ -1,12 +1,9 @@
 <?php
 require '../config/db.php';
 
-try {
-  $sql = "INSERT INTO users (name, email, password) VALUES (?,?,?)";
-  $stmt = $pdo->prepare($sql);
-} catch (PDOException $e) {
-  echo $e->getMessage();
-}
+$sql = "INSERT INTO users (name, email, password) VALUES (?,?,?)";
+$stmt = $pdo->prepare($sql);
+
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -113,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           </div>
           <div class="input-group">
             <label>Password</label>
-            <input type="password" name="psw" required>
+            <input type="password" name="psw" placeholder="********" required>
           </div>
           <button type="submit" class="login-btn">Sign Up</button>
         </form>
